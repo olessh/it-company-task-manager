@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from django.urls import reverse
 
 
 class Position(models.Model):
@@ -45,6 +46,9 @@ class Task(models.Model):
     class Meta:
         ordering = ("deadline", )
 
+    def get_absolute_url(self) -> str:
+        return reverse("task_manager:task-detail", args=[str(self.id)])
+
     def __str__(self):
         return (f"{self.name} ({self.get_priority_display()}) - "
                 f"{'Completed' if self.is_completed else 'Incomplete'} - "
@@ -58,6 +62,9 @@ class Worker(AbstractUser):
         ordering = ("username", )
         verbose_name = "worker"
         verbose_name_plural = "workers"
+
+    def get_absolute_url(self) -> str:
+        return reverse("task_manager:worker-detail", args=[str(self.id)])
 
     def __str__(self):
         return f"{self.username} ({self.position})"
