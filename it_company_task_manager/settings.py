@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "task_manager",
     "debug_toolbar",
     "crispy_forms",
+    "crispy_bootstrap4",
 ]
 
 MIDDLEWARE = [
