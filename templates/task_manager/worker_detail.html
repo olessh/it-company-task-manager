@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2>{{ worker.first_name }} {{ worker.last_name }} tasks info:</h2>
+  <h2>{{ worker.first_name }} {{ worker.last_name }} ({{ worker.position }})
+    <a href="{% url 'task_manager:worker-delete' pk=worker.id %}" class="btn btn-danger link-to-page">
+      Delete
+    </a>
+    <a href="{% url 'task_manager:worker-update' pk=worker.id %}" class="btn btn-secondary link-to-page">
+      Update position
+    </a>
+  </h2>
   <table class="table">
     <thead>
     <tr>
