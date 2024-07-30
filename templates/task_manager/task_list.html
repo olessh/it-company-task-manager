@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2>Task List</h2>
+  <h2>Task List 
+    <a href = "{% url 'task_manager:task-create' %}" class="btn btn-primary btn-sm">Add</a>
+  </h2>
   <table class="table">
     <thead>
     <tr>
