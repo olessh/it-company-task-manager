@@ -46,8 +46,8 @@ class Task(models.Model):
     class Meta:
         ordering = ("deadline", )
 
-    def get_absolute_url(self) -> str:
-        return reverse("task_manager:task-detail", args=[str(self.id)])
+    def get_absolute_url(self):
+        return reverse("task_manager:task-detail", kwargs={"pk": self.pk})
 
     def __str__(self):
         return (f"{self.name} ({self.get_priority_display()}) - "
