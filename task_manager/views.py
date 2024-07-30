@@ -1,15 +1,15 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
 from task_manager.models import Position, TaskType, Task, Worker
+from task_manager.forms import TaskForm, WorkerCreationForm, WorkerPositionUpdateForm
 
 
 @login_required
-def index(request: HttpRequest) -> HttpResponse:
+def index(request):
     num_positions = Position.objects.count()
     num_task_types = TaskType.objects.count()
     num_tasks = Task.objects.count()
@@ -93,14 +93,14 @@ class TaskDetailView(LoginRequiredMixin, generic.DetailView):
 
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     model = Task
-    fields = "__all__"
+    form_class = TaskForm
     success_url = reverse_lazy("task_manager:task-list")
     template_name = "task_manager/task_form.html"
 
 
 class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Task
-    fields = "__all__"
+    form_class = TaskForm
     success_url = reverse_lazy("task_manager:task-list")
     template_name = "task_manager/task_form.html"
 
@@ -109,6 +109,17 @@ class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Task
     success_url = reverse_lazy("task_manager:task-list")
     template_name = "task_manager/task_confirm_delete.html"
+
+
+@login_required()
+def update_task_assignee(request, pk):
+    task = Task.objects.get(id=pk)
+    assignee = request.user
+    if assignee in task.assignees.all():
+        task.assignees.remove(assignee)
+    else:
+        task.assignees.add(assignee)
+    return redirect(task)
 
 
 class WorkerListView(LoginRequiredMixin, generic.ListView):
@@ -120,3 +131,18 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
     queryset = Worker.objects.select_related("position").prefetch_related("tasks", "tasks__task_type")
     template_name = "task_manager/worker_detail.html"
+
+
+class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Worker
+    form_class = WorkerCreationForm
+
+
+class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Worker
+    success_url = reverse_lazy("task_manager:worker-list")
+
+
+class WorkerUpdatePositionView(LoginRequiredMixin, generic.UpdateView):
+    model = Worker
+    form_class = WorkerPositionUpdateForm
