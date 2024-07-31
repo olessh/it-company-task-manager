@@ -3,6 +3,7 @@
   <h2>Position List
     <a href = "{% url 'task_manager:position-create' %}" class="btn btn-primary btn-sm">Add</a>
   </h2>
+  {% include "includes/search_form.html" %}
   {% if position_list %}
     <table class="table">
       <thead>
