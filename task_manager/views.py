@@ -77,6 +77,7 @@ class PositionDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 class TaskTypeListView(LoginRequiredMixin, generic.ListView):
     model = TaskType
+    template_name = "task_manager/task_type_list.html"
     paginate_by = 5
 
     def get_context_data(self, *, object_list=None, **kwargs):
