@@ -130,7 +130,7 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         queryset = Task.objects.select_related("task_type")
         name = self.request.GET.get("name")
         if name:
-            return queryset.filter(model__icontains=name)
+            return queryset.filter(name__icontains=name)
         return queryset
 
 
