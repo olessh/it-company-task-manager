@@ -1,45 +1,135 @@
-{% extends "base.html" %}
+{#{% extends "base.html" %}#}
+{#{% block content %}#}
+{#  <h2>Task List #}
+{#    <a href = "{% url 'task_manager:task-create' %}" class="btn btn-primary btn-sm">Add</a>#}
+{#  </h2>#}
+{#  {% include "includes/search_form.html" %}#}
+{#  {% if task_list %}#}
+{#    <table class="table">#}
+{#      <thead>#}
+{#      <tr>#}
+{#        <th scope="col">id</th>#}
+{#        <th scope="col">Name</th>#}
+{#        <th scope="col">Description</th>#}
+{#        <th scope="col">Deadline</th>#}
+{#        <th scope="col">Completed</th>#}
+{#        <th scope="col">Priority</th>#}
+{#        <th scope="col">Task Type</th>#}
+{#        <th scope="col">Assignees</th>#}
+{#      </tr>#}
+{#      </thead>#}
+{#      <tbody>#}
+{#      {% for task in task_list %}#}
+{#        <tr>#}
+{#          <th scope="row"><a href={{ task.get_absolute_url }}>{{ task.id }}</a></th>#}
+{#          <td>{{ task.name }}</td>#}
+{#          <td>{{ task.description }}</td>#}
+{#          <td>{{ task.deadline }}</td>#}
+{#          <td>{{ task.is_completed }}</td>#}
+{#          <td>{{ task.priority }}</td>#}
+{#          <td>{{ task.task_type.name }}</td>#}
+{#          <td>#}
+{#            <ul>#}
+{#              {% for assignee in task.assignees.all %}#}
+{#                <li>{{ assignee.first_name }} {{ assignee.last_name }}</li>#}
+{#              {% endfor %}#}
+{#            </ul>#}
+{#          </td>#}
+{#        </tr>#}
+{#      {% endfor %}#}
+{#      </tbody>#}
+{#    </table>#}
+{#  {% else %}#}
+{#    <p>There are no tasks in the task manager.</p>#}
+{#  {% endif %}#}
+{#{% endblock %}#}
+
+{% extends "layouts/base-fullscreen.html" %}
+
+{% block title %} Task List {% endblock %}
+
+{% block body_class %} presentation-page bg-gray-200 {% endblock %}
+
 {% block content %}
-  <h2>Task List 
-    <a href = "{% url 'task_manager:task-create' %}" class="btn btn-primary btn-sm">Add</a>
-  </h2>
-  {% include "includes/search_form.html" %}
-  {% if task_list %}
-    <table class="table">
-      <thead>
-      <tr>
-        <th scope="col">id</th>
-        <th scope="col">Name</th>
-        <th scope="col">Description</th>
-        <th scope="col">Deadline</th>
-        <th scope="col">Completed</th>
-        <th scope="col">Priority</th>
-        <th scope="col">Task Type</th>
-        <th scope="col">Assignees</th>
-      </tr>
-      </thead>
-      <tbody>
-      {% for task in task_list %}
-        <tr>
-          <th scope="row"><a href={{ task.get_absolute_url }}>{{ task.id }}</a></th>
-          <td>{{ task.name }}</td>
-          <td>{{ task.description }}</td>
-          <td>{{ task.deadline }}</td>
-          <td>{{ task.is_completed }}</td>
-          <td>{{ task.priority }}</td>
-          <td>{{ task.task_type.name }}</td>
-          <td>
-            <ul>
-              {% for assignee in task.assignees.all %}
-                <li>{{ assignee.first_name }} {{ assignee.last_name }}</li>
-              {% endfor %}
-            </ul>
-          </td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>There are no tasks in the task manager.</p>
-  {% endif %}
+  {% include "includes/navigation.html" %}
+
+  <header class="header-2">
+    <div class="page-header min-vh-50 relative" style="background-image: url('{{ ASSETS_ROOT }}/img/braun.jpg')">
+      <span class="mask opacity-4"></span>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 text-center mx-auto">
+            <h1 class="dark-blue-text pt-3 mt-n5">Task List</h1>
+            <p class="lead mt-3 dark-blue-text" style="font-weight: bold">Keep track of your tasks effortlessly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6">
+    <section class="pt-3 pb-4" id="task-list">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                {% include "includes/search_form.html" %}
+              </div>
+              <div>
+                <a href="{% url 'task_manager:task-create' %}" class="btn btn-success">Create</a>
+              </div>
+            </div>
+            {% if task_list %}
+              <table class="table-responsive">
+                <thead>
+                <tr>
+                  <th scope="col">id</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Deadline</th>
+                  <th scope="col">Completed</th>
+                  <th scope="col">Priority</th>
+                  <th scope="col">Task Type</th>
+                  <th scope="col">Assignees</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for task in task_list %}
+                  <tr>
+                    <th scope="row"><a href={{ task.get_absolute_url }}>{{ task.id }}</a></th>
+                    <td>{{ task.name }}</td>
+                    <td>{{ task.description }}</td>
+                    <td>{{ task.deadline }}</td>
+                    <td>{{ task.is_completed|yesno:"Yes,No" }}</td>
+                    <td>{{ task.get_priority_display }}</td>
+                    <td>{{ task.task_type.name }}</td>
+                    <td>
+                      <ul>
+                        {% for assignee in task.assignees.all %}
+                          <li>{{ assignee.first_name }} {{ assignee.last_name }}</li>
+                        {% endfor %}
+                      </ul>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+
+              {% block pagination %}
+                {% include "includes/pagination.html" %}
+              {% endblock %}
+
+            {% else %}
+              <p class="text-center">There are no tasks in the task manager.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  {% block footer %}
+    {% include "includes/footer.html" %}
+  {% endblock %}
 {% endblock %}
