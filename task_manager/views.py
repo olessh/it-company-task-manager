@@ -78,6 +78,7 @@ class PositionDeleteView(LoginRequiredMixin, generic.DeleteView):
 class TaskTypeListView(LoginRequiredMixin, generic.ListView):
     model = TaskType
     template_name = "task_manager/task_type_list.html"
+    context_object_name = "task_type_list"
     paginate_by = 5
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -149,8 +150,10 @@ class TaskCreateView(LoginRequiredMixin, generic.CreateView):
 class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Task
     form_class = TaskForm
-    success_url = reverse_lazy("task_manager:task-list")
     template_name = "task_manager/task_form.html"
+
+    def get_success_url(self):
+        return reverse_lazy("task_manager:task-detail", kwargs={"pk": self.object.pk})
 
 
 class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -194,6 +197,13 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
     queryset = Worker.objects.select_related("position").prefetch_related("tasks", "tasks__task_type")
     template_name = "task_manager/worker_detail.html"
+
+
+class WorkerSignUPView(generic.CreateView):
+    model = Worker
+    form_class = WorkerCreationForm
+    template_name = "registration/sign-up.html"
+    success_url = reverse_lazy("task_manager:index")
 
 
 class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
