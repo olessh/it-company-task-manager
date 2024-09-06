@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -162,15 +162,25 @@ class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     template_name = "task_manager/task_confirm_delete.html"
 
 
-@login_required()
-def update_task_assignee(request, pk):
-    task = Task.objects.get(id=pk)
-    assignee = request.user
-    if assignee in task.assignees.all():
-        task.assignees.remove(assignee)
-    else:
-        task.assignees.add(assignee)
-    return redirect(task)
+# @login_required()
+# def update_task_assignee(request, pk):
+#     task = Task.objects.get(id=pk)
+#     assignee = request.user
+#     if assignee in task.assignees.all():
+#         task.assignees.remove(assignee)
+#     else:
+#         task.assignees.add(assignee)
+#     return redirect(task)
+
+class UpdateTaskAssigneeView(LoginRequiredMixin, generic.View):
+    def post(self, request, pk):
+        task = get_object_or_404(Task, id=pk)
+        assignee = request.user
+        if assignee in task.assignees.all():
+            task.assignees.remove(assignee)
+        else:
+            task.assignees.add(assignee)
+        return redirect(task)
 
 
 class WorkerListView(LoginRequiredMixin, generic.ListView):
