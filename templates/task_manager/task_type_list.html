@@ -1,39 +1,3 @@
-{#{% extends "base.html" %}#}
-{#{% block content %}#}
-{#  <h2>Task Type List#}
-{#    <a href = "{% url 'task_manager:task-type-create' %}" class="btn btn-primary btn-sm">Add</a>#}
-{#  </h2>#}
-{#  {% include "includes/search_form.html" %}#}
-{#  {% if task_type_list%}#}
-{#    <table class="table">#}
-{#      <thead>#}
-{#      <tr>#}
-{#        <th scope="col">id</th>#}
-{#        <th scope="col">Name</th>#}
-{#        <th scope="col">Update</th>#}
-{#        <th scope="col">Delete</th>#}
-{#      </tr>#}
-{#      </thead>#}
-{#      <tbody>#}
-{#      {% for task_type in task_type_list %}#}
-{#        <tr>#}
-{#          <th scope="row">{{ task_type.id }}</th>#}
-{#          <td>{{ task_type.name }}</td>#}
-{#          <td>#}
-{#            <a href="{% url "task_manager:task-type-update" pk=task_type.id %}" class="btn btn-info btn-sm">Update</a>#}
-{#          </td>#}
-{#          <td>#}
-{#            <a href="{% url "task_manager:task-type-delete" pk=task_type.id %}" class="btn btn-danger btn-sm">Delete</a>#}
-{#          </td>#}
-{#        </tr>#}
-{#      {% endfor %}#}
-{#      </tbody>#}
-{#    </table>#}
-{#  {% else %}#}
-{#    <p>There are no task types in the task manager.</p>#}
-{#  {% endif %}#}
-{#{% endblock %}#}
-
 {% extends "layouts/base-fullscreen.html" %}
 
 {% block title %} Task Types List {% endblock %}

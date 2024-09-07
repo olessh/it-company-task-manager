@@ -1,39 +1,3 @@
-{#{% extends "base.html" %}#}
-{#{% block content %}#}
-{#  <h2>Worker List#}
-{#    <a href="{% url 'task_manager:worker-create' %}" class="btn btn-primary link-to-page">#}
-{#      Create#}
-{#    </a>#}
-{#  </h2>#}
-{#  {% include "includes/search_form.html" %}#}
-{#  {% if worker_list %}#}
-{#    <table class="table">#}
-{#      <thead>#}
-{#      <tr>#}
-{#        <th scope="col">id</th>#}
-{#        <th scope="col">Username</th>#}
-{#        <th scope="col">First name</th>#}
-{#        <th scope="col">Last name</th>#}
-{#        <th scope="col">Position</th>#}
-{#      </tr>#}
-{#      </thead>#}
-{#      <tbody>#}
-{#      {% for worker in worker_list %}#}
-{#        <tr>#}
-{#          <th scope="row">{{ worker.id }}</th>#}
-{#          <td><a href={{ worker.get_absolute_url }}>{{ worker.username }} {% if user == worker %} (Me){% endif %}</a></td>#}
-{#          <td>{{ worker.first_name }}</td>#}
-{#          <td>{{ worker.last_name }}</td>#}
-{#          <td>{{ worker.position.name }}</td>#}
-{#        </tr>#}
-{#      {% endfor %}#}
-{#      </tbody>#}
-{#    </table>#}
-{#  {% else %}#}
-{#    <p>There are no workers in the task manager.</p>#}
-{#  {% endif %}#}
-{#{% endblock %}#}
-
 {% extends "layouts/base-fullscreen.html" %}
 
 {% block title %} Worker List {% endblock %}

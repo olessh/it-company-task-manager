@@ -1,29 +1,3 @@
-{#{% extends "base.html" %}#}
-{#{% block content %}#}
-{#  <h2>Task: {{ task.name }}</h2>#}
-{#  <h3>Task Type: {{ task.task_type.name }}</h3>#}
-{#  <a href="{% url "task_manager:task-update" pk=task.id %}" class="btn btn-info btn-sm">Update task</a>#}
-{#  <a href="{% url "task_manager:task-delete" pk=task.id %}" class="btn btn-danger btn-sm">Delete task</a>#}
-{#  <hr>#}
-{#  <p><strong>Workers:#}
-{#    {% if user not in task.workers.all %}#}
-{#      <a href="{% url 'task_manager:task-update-assignee' pk=task.id %}" class="btn btn-primary link-to-page">Assign me to this#}
-{#        task</a>#}
-{#    {% else %}#}
-{#      <a href="{% url 'task_manager:task-update-assignee' pk=task.id %}" class="btn btn-danger link-to-page">Delete me from this#}
-{#        task</a>#}
-{#    {% endif %}#}
-{#  </strong></p>#}
-{#  <ul>#}
-{#    {% for assignee in task.assignees.all %}#}
-{#      <li><strong>Username:</strong> {{ assignee.username }}</li>#}
-{#      <li><strong>Full name:</strong> {{ assignee.first_name }} {{ assignee.last_name }}</li>#}
-{#      <li><strong>Position:</strong> {{ assignee.position }}</li>#}
-{#      <hr>#}
-{#    {% endfor %}#}
-{#  </ul>#}
-{#{% endblock %}#}
-
 {% extends "layouts/base-fullscreen.html" %}
 
 {% block title %} Task: {{ task.name }} {% endblock %}
