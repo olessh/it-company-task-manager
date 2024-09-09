@@ -1,0 +1,46 @@
+{% extends "layouts/base-fullscreen.html" %}
+{% load crispy_forms_filters %}
+
+{% block title %} Delete Task {% endblock %}
+
+{% block body_class %} presentation-page bg-gray-200 {% endblock %}
+
+{% block content %}
+  {% include "includes/navigation.html" %}
+
+  <header class="header-2">
+    <div class="page-header min-vh-50 relative" style="background-image: url('{{ ASSETS_ROOT }}/img/braun.jpg')">
+      <span class="mask opacity-4"></span>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 text-center mx-auto">
+            <h2 class="dark-blue-text pt-3 mt-n5">Delete task</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6">
+    <section class="pt-3 pb-4" id="task-delete">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 mx-auto">
+            <p>Are you sure you want to delete <strong>{{ task }}</strong>?</p>
+            <form action="" method="post">
+              {% csrf_token %}
+              <div class="d-flex justify-content-end mt-3">
+                <input type="submit" value="Yes, delete" class="btn btn-danger mr-2">
+                <a href="{% url 'task_manager:task-list' %}" class="btn btn-secondary">Cancel</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  {% block footer %}
+    {% include "includes/footer.html" %}
+  {% endblock %}
+{% endblock %}

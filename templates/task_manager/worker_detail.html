@@ -1,0 +1,86 @@
+{% extends "layouts/base-fullscreen.html" %}
+
+{% block title %} {{ worker.first_name }} {{ worker.last_name }} ({{ worker.position }}) {% endblock %}
+
+{% block body_class %} presentation-page bg-gray-200 {% endblock %}
+
+{% block content %}
+  {% include "includes/navigation.html" %}
+
+  <header class="header-2">
+    <div class="page-header min-vh-55 relative" style="background-image: url('{{ ASSETS_ROOT }}/img/purple.jpg')">
+      <span class="mask opacity-4"></span>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 text-center mx-auto">
+            <h1 class="dark-blue-text pt-3 mt-n5">{{ worker.first_name }} {{ worker.last_name }}</h1>
+            <p class="lead mt-3 dark-blue-text" style="font-weight: bold">{{ worker.position }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6">
+    <section class="pt-3 pb-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+            <div class="d-flex justify-content-center align-items-center mb-3">
+              <div>
+                <a href="{% url 'task_manager:worker-update' pk=worker.id %}" class="btn btn-info">Update position</a>
+                <a href="{% url 'task_manager:worker-delete' pk=worker.id %}" class="btn btn-danger">Delete</a>
+                <a href="{% url 'task_manager:worker-list' %}" class="btn btn-secondary">Back to list</a>
+              </div>
+            </div>
+            <div class="text-center mb-4">
+              <h3>All tasks of this worker</h3>
+            </div>
+            {% if worker.tasks.exists %}
+              <table class="table-responsive">
+                <thead>
+                <tr>
+                  <th scope="col">id</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Deadline</th>
+                  <th scope="col">Completed</th>
+                  <th scope="col">Priority</th>
+                  <th scope="col">Task Type</th>
+                  <th scope="col">Assignees</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for task in worker.tasks.all %}
+                  <tr>
+                    <th scope="row"><a href={{ task.get_absolute_url }}>{{ task.id }}</a></th>
+                    <td>{{ task.name }}</td>
+                    <td>{{ task.description }}</td>
+                    <td>{{ task.deadline }}</td>
+                    <td>{{ task.is_completed|yesno:"Yes,No" }}</td>
+                    <td>{{ task.get_priority_display }}</td>
+                    <td>{{ task.task_type.name }}</td>
+                    <td>
+                      <ul class="list">
+                        {% for assignee in task.assignees.all %}
+                          <li>{{ assignee.first_name }} {{ assignee.last_name }}</li>
+                        {% endfor %}
+                      </ul>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+              <p class="text-center">This worker has no tasks yet.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  {% block footer %}
+    {% include "includes/footer.html" %}
+  {% endblock %}
+{% endblock %}
