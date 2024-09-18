@@ -30,7 +30,7 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
 # DEBUG = not in os.environ
 
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = ["127.0.0.1", "it-company-task-manager-3ifs.onrender.com"]
 
 
 # Application definition
