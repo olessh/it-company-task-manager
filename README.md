@@ -1,6 +1,10 @@
 # Task Manager
 This project is a simple task management system that allows an IT company to manage positions, task types, tasks, and workers. The system provides views for listing, creating, updating, and deleting records for each model.
 
+## Check it out!
+
+[Task Manager project deployed to Render](https://it-company-task-manager-3ifs.onrender.com/)
+
 ## Instructions for launching the project
 
 **1. Repository cloning**
